@@ -128,14 +128,20 @@ def save_user_info(filename, details):
         print(f"Info saved to {filename} in {os.getcwd()}")
 
 
-def get_saved_user_info(filename):
+def get_saved_user_info(filename,n=0):
     with open(filename, "r") as f:
         data = json.load(f)
 
     # for backward compatible logic
-    if data["search_option"] !=3 and "pin_code_location_dtls" not in data:
-        data["pin_code_location_dtls"] = []
-    return data
+    if n == 1:
+        if "otp_key" in data:
+            return data["otp_key"]
+        else:
+            return False
+    else:
+        if data["search_option"] !=3 and "pin_code_location_dtls" not in data:
+            data["pin_code_location_dtls"] = []
+        return data
 
 
 def get_dose_num(collected_details):
@@ -164,8 +170,9 @@ def start_date_search():
                 print('Invalid Date! Proceeding with tomorrow.')
         return start_date
 
-def collect_user_details(request_header):
+def collect_user_details(request_header,otp_key):
     # Get Beneficiaries
+	#otp_key = input("""Please enter KVDB OTP key:""")
     print("Fetching registered beneficiaries.. ")
     beneficiary_dtls = get_beneficiaries(request_header)
 
@@ -293,6 +300,7 @@ def collect_user_details(request_header):
     captcha_automation = "y" if not captcha_automation else captcha_automation
 
     collected_details = {
+		"otp_key": otp_key,
         "beneficiary_dtls": beneficiary_dtls,
         "location_dtls": location_dtls,
         "pin_code_location_dtls": pin_code_location_dtls,
@@ -1035,11 +1043,11 @@ def clear_bucket_and_send_OTP(storage_url, mobile, request_header):
     return txnId
 
 
-def generate_token_OTP(mobile, request_header):
+def generate_token_OTP(mobile, request_header,otp_key):
     """
     This function generate OTP and returns a new token or None when not able to get token
     """
-    storage_url = "https://kvdb.io/ASth4wnvVDPkg2bdjsiqMN/" + mobile
+    storage_url = "https://kvdb.io/"+str(otp_key)+"/" + mobile
 
     txnId = clear_bucket_and_send_OTP(storage_url, mobile, request_header)
 

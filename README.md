@@ -8,6 +8,10 @@
 
 </div>
 
+##Important point to note
+**This repo is just to address kvdb related error #417 in https://github.com/bombardier-gif/covid-vaccine-booking.git**
+**Use exe file with version v1.0.6 in this repo**
+
 ## Quickstart Guide
 **Instructions to follow on your laptop and phone below. To fetch OTP automatically, Step 2 is compulsory**
 

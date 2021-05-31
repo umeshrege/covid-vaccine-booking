@@ -43,12 +43,22 @@ def main():
         else:
             mobile = input("Enter the registered mobile number: ")
             filename = filename + mobile + ".json"
+            print("Filename: ", filename)
+            if os.path.exists(filename):
+                otp_key = get_saved_user_info(filename, 1)
+                if otp_key is False:
+                    print("KVDB bucket key data not found in json file")
+                    otp_key = input("Enter bucket key: ")
+            else:
+                print("JSON file not found.")
+                otp_key = input("Enter bucket key: ")
+            print("OTP Bucket Key:", otp_key)
             otp_pref = input("\nDo you want to enter OTP manually, instead of auto-read? \nRemember selecting n would require some setup described in README (y/n Default n): ")
             otp_pref = otp_pref if otp_pref else "n"
             while token is None:
                 if otp_pref=="n":
                     try:
-                        token = generate_token_OTP(mobile, base_request_header)
+                        token = generate_token_OTP(mobile, base_request_header,otp_key)
                     except Exception as e:
                         print(str(e))
                         print('OTP Retrying in 5 seconds')
@@ -75,15 +85,15 @@ def main():
                 file_acceptable = file_acceptable if file_acceptable else 'y'
 
                 if file_acceptable != 'y':
-                    collected_details = collect_user_details(request_header)
+                    collected_details = collect_user_details(request_header,otp_key)
                     save_user_info(filename, collected_details)
 
             else:
-                collected_details = collect_user_details(request_header)
+                collected_details = collect_user_details(request_header,otp_key)
                 save_user_info(filename, collected_details)
 
         else:
-            collected_details = collect_user_details(request_header)
+            collected_details = collect_user_details(request_header,otp_key)
             save_user_info(filename, collected_details)
             confirm_and_proceed(collected_details)
 
@@ -135,7 +145,7 @@ def main():
                     while token is None:
                         if otp_pref=="n":
                             try:
-                                token = generate_token_OTP(mobile, base_request_header)
+                                token = generate_token_OTP(mobile, base_request_header,otp_key)
                             except Exception as e:
                                 print(str(e))
                                 print('OTP Retrying in 5 seconds')

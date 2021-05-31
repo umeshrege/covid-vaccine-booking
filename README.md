@@ -2,15 +2,14 @@
 
 <div align="center">
 
-<i>This is a fork over the neat [covid-vaccine-booking](https://github.com/pallupz/covid-vaccine-booking). Thanks for creating a playground for me to build on :metal:</i>
-
-<i>Loved the project? Please consider [donating](http://buymeacoff.ee/bombardier) to help it improve!</i>
+<i>This is a fork over the neat [covid-vaccine-booking](https://github.com/bombardier-gif/covid-vaccine-booking). Minor improvements to fix kvdb related issue.</i>
 
 </div>
 
 ##Important point to note
 **This repo is just to address kvdb related error #417 in https://github.com/bombardier-gif/covid-vaccine-booking.git**
-**Use exe file with version v1.0.6 in this repo**
+**Use exe file with version v1.0.6 in this repo for windows users**
+**Please refer to https://github.com/bombardier-gif/covid-vaccine-booking/issues/417 for additional steps related to kvdb**
 
 ## Quickstart Guide
 **Instructions to follow on your laptop and phone below. To fetch OTP automatically, Step 2 is compulsory**
